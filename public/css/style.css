@@ -1,73 +1,188 @@
+/* General Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #0e0e0e;
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif; /* Using Inter as per previous instruction */
+    background-color: #0e0e0e; /* Dark background */
+    color: #fff; /* White text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent body scroll, chat-box handles scroll */
 }
 
+/* Chat Wrapper - Main container */
 .chat-wrapper {
-  width: 400px;
-  height: 600px;
-  display: flex;
-  flex-direction: column;
-  background: #1e1e1e;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width: 400px; /* Default desktop width */
+    height: 600px; /* Default desktop height */
+    display: flex;
+    flex-direction: column;
+    background: #1e1e1e; /* Darker background for chat box */
+    border-radius: 10px;
+    overflow: hidden; /* Ensures content stays within rounded corners */
+    box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Subtle shadow */
 }
 
+/* Chat Box - Messages display area */
 .chat-box {
-  flex: 1;
-  padding: 15px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+    flex: 1; /* Takes up available vertical space */
+    padding: 15px;
+    overflow-y: auto; /* Enables scrolling for messages */
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between messages */
+    /* Custom scrollbar for better aesthetics */
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #4CAF50 #1e1e1e; /* Thumb and track color */
 }
+
+/* Webkit browsers (Chrome, Safari) scrollbar styling */
+.chat-box::-webkit-scrollbar {
+    width: 8px;
+}
+.chat-box::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+.chat-box::-webkit-scrollbar-thumb {
+    background-color: #4CAF50;
+    border-radius: 10px;
+    border: 2px solid #1e1e1e;
+}
+
+/* Individual Message Bubble */
 .message {
-  background: #2f2f2f;
-  padding: 10px 15px;
-  border-radius: 20px;
-  max-width: 80%;
-  word-wrap: break-word;
-  align-self: flex-start;
+    background: #2f2f2f; /* Dark grey for received messages */
+    padding: 10px 15px;
+    border-radius: 20px; /* Rounded corners for bubbles */
+    max-width: 80%; /* Messages don't take full width */
+    word-wrap: break-word; /* Ensures long words break */
+    align-self: flex-start; /* Default alignment for received messages */
+    line-height: 1.4; /* Improve readability */
 }
 
 /* Your own messages */
 .message.mine {
-  background-color: #4CAF50;
-  align-self: flex-end;
-  color: white;
+    background-color: #4CAF50; /* Green for sent messages */
+    align-self: flex-end; /* Align to the right for sent messages */
+    color: white;
 }
+
+/* Chat Input Form */
 #chat-form {
-  display: flex;
-  border-top: 1px solid #333;
+    display: flex;
+    border-top: 1px solid #333; /* Separator line */
+    padding: 10px; /* Add padding around input and button */
+    background: #141414; /* Dark background for input area */
 }
 
+/* Chat Input Field */
 #chat-input {
-  flex: 1;
-  padding: 15px;
-  border: none;
-  outline: none;
-  background: #141414;
-  color: #fff;
-  font-size: 16px;
+    flex: 1; /* Takes up most of the space */
+    padding: 12px 15px; /* Slightly adjusted padding for better touch */
+    border: none;
+    outline: none;
+    background: #2f2f2f; /* Slightly lighter than form background for contrast */
+    color: #fff;
+    font-size: 16px;
+    border-radius: 25px; /* More rounded input field */
+    margin-right: 10px; /* Space between input and button */
 }
 
+/* Send Button */
 #chat-form button {
-  padding: 15px 20px;
-  border: none;
-  background: #4CAF50;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.2s;
+    padding: 12px 20px; /* Adjusted padding for better touch target */
+    border: none;
+    background: #4CAF50; /* Green button */
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.2s ease-in-out; /* Smooth hover effect */
+    border-radius: 25px; /* Rounded button */
+    flex-shrink: 0; /* Prevent button from shrinking */
 }
 
 #chat-form button:hover {
-  background: #45a049;
+    background: #45a049; /* Darker green on hover */
+}
+
+#chat-form button:disabled {
+    background: #8BC34A; /* Lighter green when disabled */
+    cursor: not-allowed;
+}
+
+/* User ID Display (if you add this element) */
+.user-id-display {
+    text-align: center;
+    padding: 10px;
+    background: #252525;
+    font-size: 0.85rem;
+    color: #aaa;
+    border-bottom: 1px solid #333;
+}
+
+
+/* --- Responsive Design for Mobile (max-width: 768px) --- */
+@media (max-width: 768px) {
+     .chat-wrapper {
+        width: 100vw;           /* Full width of viewport */
+        height: 100vh;          /* Full height of viewport */
+        border-radius: 0;       /* Remove border radius for edge-to-edge design */
+    }
+
+    .chat-box {
+        padding: 10px;          /* Slightly tighter padding for small screens */
+        gap: 8px;               /* Smaller gap between messages */
+    }
+
+    .message {
+        font-size: 0.95rem;     /* Slightly smaller text to fit more content */
+        padding: 10px 12px;
+        max-width: 90%;         /* Give more horizontal space for messages */
+    }
+
+    #chat-input {
+        padding: 10px 12px;
+        font-size: 1rem;
+    }
+
+    #chat-form button {
+        padding: 10px 14px;
+        font-size: 1rem;
+    }
+
+    .user-id-display {
+        font-size: 0.75rem;
+        padding: 8px;
+    }
+
+}
+/* --- Responsive Design for Tablets (min-width: 768px and max-width: 1023px) --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .chat-wrapper {
+        width: 90%; /* Make chat wrapper take up 90% width on tablets */
+        max-width: 550px; /* But not too wide */
+        height: 90vh; /* Make chat wrapper take up 90% height on tablets */
+    }
+
+    .chat-box {
+        padding: 20px; /* Slightly more padding for messages */
+    }
+
+    .message {
+        font-size: 1.05rem; /* Slightly larger font for messages */
+    }
+
+    #chat-input {
+        font-size: 1.05rem;
+    }
+
+    #chat-form button {
+        font-size: 1.05rem;
+    }
 }

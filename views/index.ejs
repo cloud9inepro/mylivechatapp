@@ -2,6 +2,8 @@
 <html>
 <head>
   <title>Live Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="/css/style.css">
   <script src="/socket.io/socket.io.js"></script>
 </head>
@@ -46,6 +48,22 @@
     chatBox.appendChild(message);
     chatBox.scrollTop = chatBox.scrollHeight;
   });
+
+  // ✅ Load existing chat history on page load
+socket.on('chat history', function(history) {
+  history.forEach(data => {
+    const message = document.createElement('div');
+    message.classList.add('message');
+    if (data.user === nickname) {
+      message.classList.add('mine');
+    }
+    message.innerHTML = `<strong>${data.user}:</strong> ${data.text}`;
+    chatBox.appendChild(message);
+  });
+  chatBox.scrollTop = chatBox.scrollHeight;
+});
+
+
 </script>
 
 </body>

@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const http = require('http');
 const { Server } = require('socket.io');
 
+const messages = [];
+
 const app = express();
 const server = http.createServer(app); // Use this server for both express and socket.io
 const io = new Server(server);         // Attach socket.io to the HTTP server
@@ -28,11 +30,16 @@ app.get("/index", function(req, res){
 io.on('connection', (socket) => {
   console.log('User connected');
 
+  // ✅ Send chat history to the newly connected client
+  socket.emit('chat history', messages);
+
+  // ✅ Receive new message
   socket.on('chat message', (data) => {
-    io.emit('chat message', {
-      user: data.user,
-      text: data.text
-    });
+    // Save to memory
+    messages.push(data);
+
+    // Broadcast to everyone
+    io.emit('chat message', data);
   });
 
   socket.on('disconnect', () => {
